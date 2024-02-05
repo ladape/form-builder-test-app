@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+.form-container {
+  display: flex;
+  align-items: center;
+  form {
+    display: flex;
+    flex-direction: column;
+    .form-row {
+      display: flex;
+      margin-bottom: 10px;
+      .group {
+        border: solid 1px lightgray;
+        padding: 10px;
+        width: 100%;
+      }
+      .json-textarea {
+        min-width: 300px;
+        min-height: 100px;
+      }
+    }
+    label {
+      margin-right: 10px;
+      width: 200px;
+    }
+  }
+}

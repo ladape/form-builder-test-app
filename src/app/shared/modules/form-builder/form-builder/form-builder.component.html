@@ -1,0 +1,74 @@
+<div class="form-container" *ngIf="form && formElements.length">
+  <form [formGroup]="form">
+    <div  class="form-row" *ngFor="let formElement of formElements">
+      <div class="group" *ngIf="formElement.isGroup">
+        <div  class="form-row" *ngFor="let formElement of formElement.items">
+          <ng-container *ngTemplateOutlet="templateRef; context: { $implicit: formElement }"></ng-container>
+        </div>
+      </div>
+      <div *ngIf="!formElement.isGroup">
+        <div class="form-row">
+          <ng-container *ngTemplateOutlet="templateRef; context: { $implicit: formElement }"></ng-container>
+        </div>
+      </div>
+    </div>
+    <ng-template #templateRef let-formElement>
+      <label *ngIf="formElement.type !== 'LOV'" [for]="formElement.attribute_id">{{ formElement.attribute_name }}</label>
+      <div  class="form-element" [ngSwitch]="formElement.type">
+        <div *ngSwitchCase="'INT'">
+          <input
+            [id]="formElement.attribute_id"
+            type="number"
+            [formControlName]="formElement.formControlName"
+          >
+        </div>
+        <div *ngSwitchCase="'FLOAT'">
+          <input
+            [id]="formElement.attribute_id"
+            type="number"
+            [formControlName]="formElement.formControlName"
+          >
+        </div>
+        <div *ngSwitchCase="'NUMBER'">
+          <input
+            [id]="formElement.attribute_id"
+            type="number"
+            [formControlName]="formElement.formControlName"
+          >
+        </div>
+        <div *ngSwitchCase="'JSON'">
+          <textarea
+            class="json-textarea"
+            [id]="formElement.attribute_id"
+            [formControlName]="formElement.formControlName"
+          ></textarea>
+        </div>
+        <div *ngSwitchCase="'STRING'">
+          <input
+            [id]="formElement.attribute_id"
+            *ngIf="!formElement.value.items"
+            type="text"
+            [formControlName]="formElement.formControlName"
+          >
+          <select
+            [id]="formElement.attribute_id"
+            *ngIf="formElement.value.items"
+            [formControlName]="formElement.formControlName"
+          >
+            <option *ngFor="let item of formElement.value.items" [value]="item">
+              {{ item.value }}
+            </option>
+          </select>
+        </div>
+        <div *ngSwitchCase="'BOOL'">
+          <input
+            [id]="formElement.attribute_id"
+            type="checkbox"
+            [formControlName]="formElement.formControlName"
+          >
+        </div>
+      </div>
+    </ng-template>
+  </form>
+</div>
+
